@@ -1,3 +1,9 @@
+const words = [
+  "What plan do you have today?",
+  "what are you thinking?",
+  "Do you have homework?",
+];
+
 const input = document.querySelector("input");
 const btn = document.querySelector("#add");
 const ul = document.querySelector(".list");
@@ -7,7 +13,9 @@ let listItem;
 let buttonDelete;
 let buttonEdit;
 
-let to_do = {};
+window.addEventListener("load", () => {
+  input.setAttribute("placeholder", randomWord());
+});
 
 btn.addEventListener("click", (e) => {
   e.preventDefault();
@@ -17,10 +25,13 @@ btn.addEventListener("click", (e) => {
     input.focus();
   } else {
     listItem = document.createElement("li");
-    listItemText = document.createElement("p");
-    listItemText.textContent += input.value;
+    listItemInput = document.createElement("input");
+    listItemInput.value += input.value;
     ul.appendChild(listItem);
-    listItem.appendChild(listItemText);
+    listItem.appendChild(listItemInput);
+
+    listItemInput.setAttribute("disabled", "");
+    listItemInput.setAttribute("type", "text");
 
     listItem.appendChild(deleteElement());
     listItem.appendChild(editElement());
@@ -34,11 +45,12 @@ btn.addEventListener("click", (e) => {
 
 const deleteElement = () => {
   buttonDelete = document.createElement("button");
-  buttonDelete.textContent = "Delete";
-
-  buttonDelete.classList.add("button_delete");
+  deleteIcon = document.createElement("i");
+  deleteIcon.classList.add("bx", "bx-x-circle");
+  buttonDelete.appendChild(deleteIcon);
+  buttonDelete.classList.add("btn", "btn_danger");
   buttonDelete.addEventListener("click", (e) => {
-    let li = e.target.parentElement;
+    let li = e.target.parentElement.parentElement;
     ul.removeChild(li);
     let lis = document.querySelectorAll("li");
     if (lis.length === 0) {
@@ -51,25 +63,40 @@ const deleteElement = () => {
 
 const editElement = () => {
   buttonEdit = document.createElement("button");
-  buttonEdit.textContent = "Edit";
+  editIcon = document.createElement("i");
+  editIcon.classList.add("bx", "bx-edit-alt");
+
+  buttonEdit.classList.add("btn", "btn_info");
+  buttonEdit.appendChild(editIcon);
 
   buttonEdit.addEventListener("click", (e) => {
-    let li_edit = e.target.parentElement;
-    let newInput = document.createElement("input");
-    let  p = li_edit.children[0]
-    p.style.display = "none";
-    
-    newInput.setAttribute("type", "text");
-    newInput.value = p.textContent;
-    li_edit.appendChild(newInput);
+    thisParent = e.target.parentElement.parentElement;
+    thisInput = thisParent.children[0];
+    thisInput.value = thisInput.value;
+    thisInput.toggleAttribute("disabled");
 
-    buttonEdit.textContent = "Save";
+    switch (thisInput.hasAttribute("disabled")) {
+      case false:
+        buttonEdit.classList.remove("btn_info");
+        buttonEdit.classList.add("btn_success");
+        editIcon.classList.remove("bx", "bx-edit-alt");
+        editIcon.classList.add("bx", "bx-save");
 
-    buttonEdit.addEventListener("click", () => {
-      listItemText.textContent = newInput.value;
-      listItemText.style.display = "block";
-      newInput.remove()
-    });
+        break;
+
+      default:
+        buttonEdit.classList.remove("btn_success");
+        buttonEdit.classList.add("btn_info");
+        editIcon.classList.remove("bx", "bx-save");
+        editIcon.classList.add("bx", "bx-edit-alt");
+        break;
+    }
   });
+
   return buttonEdit;
+};
+
+const randomWord = () => {
+  let random = Math.floor(Math.random() * words.length);
+  return words[random];
 };

@@ -64,22 +64,58 @@
   padding: 5px 10px;
   display: flex;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 3px;
   margin: 5px 0;
   background-color: #fff;
-}
+  border-left: 5px solid #0378a6;
 
-.button_delete {
+}
+.list-section .list li input{
+  border-color: #0378a6;
+  border-style: solid;
+  border-width: 0px 0px 1px 0px;
+  background-color: #f2f2f2;
+  padding: 5px;
+  outline: none;
+  width: 80%;
+  transition: 0.5s;
+  text-overflow: inherit;
+  white-space: initial;
+  overflow: visible;
+  
+}
+.list-section .list li input:disabled{
+  border: 0;
+  color: #0d0d0d;
+  background-color: #fff; 
+
+}
+.btn{
   margin-left: 5px;
   border-radius: 5px;
   border: 0;
   padding: 5px;
   transition: 0.3s;
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.button_delete:hover {
+.btn i{
+  font-size: 24px;
+}
+
+.btn_danger:hover {
   background-color: #d32020;
   color: #f2f2f2;
+}
+.btn_info:hover {
+  background-color: #dd7a08;
+  color: #ffffff;
+ 
+}
+.btn_success:hover{
+  background-color: #0597f2;
+  color: #ffffff;
 }
 .empty{
     text-align: center;
